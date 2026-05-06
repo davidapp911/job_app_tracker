@@ -11,7 +11,7 @@ A command-line tool for tracking and managing job applications, backed by a loca
 | Language | Python 3.14 |
 | CLI | [Typer](https://typer.tiangolo.com/) |
 | ORM | SQLAlchemy 2.0 |
-| Database | SQLite (local file) |
+| Database | SQLite (`~/.jobs/job.db`) |
 | Display | Tabulate |
 | Linting | Ruff + Black |
 | Testing | pytest |
@@ -20,6 +20,8 @@ A command-line tool for tracking and managing job applications, backed by a loca
 
 ## Installation
 
+**Requirements:** [pyenv](https://github.com/pyenv/pyenv) with Python 3.14 installed.
+
 1. Clone the repository:
 
 ```bash
@@ -27,28 +29,26 @@ git clone <repo-url>
 cd job_application_tracker
 ```
 
-2. Create and activate a virtual environment:
+2. Run the install script:
 
 ```bash
-python -m venv venv
-source venv/bin/activate      # macOS / Linux
-venv\Scripts\activate         # Windows
+bash install.sh
 ```
 
-3. Install dependencies:
+This will:
+- Install the `japp` command globally via pip
+- Add the pyenv bin directory to your `PATH` in `~/.zshrc` (only once)
 
-```bash
-pip install -r requirements.txt
-```
+3. Open a new terminal — `japp` is now available from anywhere.
+
+> The database is stored at `~/.jobs/job.db` and persists across reinstalls.
 
 ---
 
 ## Usage
 
-All commands are run via:
-
 ```bash
-python -m src.cli [COMMAND] [OPTIONS]
+japp [COMMAND] [OPTIONS]
 ```
 
 ---
@@ -58,13 +58,13 @@ python -m src.cli [COMMAND] [OPTIONS]
 ### Add a new entry
 
 ```bash
-python -m src.cli add "Google" "Software Engineer"
+japp add "Google" "Software Engineer"
 ```
 
 ### List all entries
 
 ```bash
-python -m src.cli list
+japp list
 ```
 
 ### Search entries
@@ -72,11 +72,11 @@ python -m src.cli list
 Filter by any combination of fields:
 
 ```bash
-python -m src.cli search-by --company "Google"
-python -m src.cli search-by --id 1
-python -m src.cli search-by --job_title "Engineer"
-python -m src.cli search-by --status "Pending start"
-python -m src.cli search-by --company "Google" --job_title "Engineer"
+japp search-by --company "Google"
+japp search-by --id 1
+japp search-by --job_title "Engineer"
+japp search-by --status "Pending start"
+japp search-by --company "Google" --job_title "Engineer"
 ```
 
 ### Update an entry
@@ -84,14 +84,14 @@ python -m src.cli search-by --company "Google" --job_title "Engineer"
 Pass one or more fields to update by entry ID:
 
 ```bash
-python -m src.cli update 1 --company "Amazon"
-python -m src.cli update 1 --job_title "Senior Engineer" --status "Applied"
+japp update 1 --company "Amazon"
+japp update 1 --job_title "Senior Engineer" --status "Applied"
 ```
 
 ### Delete an entry
 
 ```bash
-python -m src.cli delete 1
+japp delete 1
 ```
 
 ### Reset the database
@@ -99,7 +99,7 @@ python -m src.cli delete 1
 Deletes all entries (prompts for confirmation):
 
 ```bash
-python -m src.cli reset
+japp reset
 ```
 
 ---

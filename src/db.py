@@ -5,7 +5,8 @@ from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path.home() / ".jobs"
+BASE_DIR.mkdir(exist_ok=True)
 
 DATABASE_URL = f"sqlite:///{BASE_DIR / 'job.db'}"
 
